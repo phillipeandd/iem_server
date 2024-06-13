@@ -48,7 +48,7 @@ const postExporterDetails = async (req, res) => {
 // Get a Exporter Details
 const getExporterDetails = async (req, res) => {
   try {
-    const user = await ExporterModel.find();
+    const user = await ExporterModel.find().sort({ createdAt: -1 });
     if (!user) {
       return res.status(404).send();
     }

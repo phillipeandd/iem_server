@@ -75,7 +75,7 @@ const postShippingDetails = async (req, res) => {
 // Get a Shipping Details
 const getShippingDetails = async (req, res) => {
   try {
-    const user = await ShippingDetailsModel.find();
+    const user = await ShippingDetailsModel.find().sort({ createdAt: -1 });
     if (!user) {
       return res.status(404).send();
     }

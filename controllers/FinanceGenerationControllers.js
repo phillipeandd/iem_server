@@ -72,7 +72,7 @@ const postFinanceGenerationDetails = async (req, res) => {
 // Get a Finance Generation Details
 const getFinanceGenerationDetails = async (req, res) => {
   try {
-    const user = await FinanceGenerationModel.find();
+    const user = await FinanceGenerationModel.find().sort({ createdAt: -1 });
     if (!user) {
       return res.status(404).send();
     }

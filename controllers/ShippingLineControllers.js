@@ -42,7 +42,7 @@ const postShippingLineDetails = async (req, res) => {
 // Get a Shipping Line Details
 const getShippingLineDetails = async (req, res) => {
   try {
-    const user = await ShippingLineModel.find();
+    const user = await ShippingLineModel.find().sort({ createdAt: -1 });
     if (!user) {
       return res.status(404).send();
     }

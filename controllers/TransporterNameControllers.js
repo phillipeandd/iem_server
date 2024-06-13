@@ -42,7 +42,7 @@ const postTransporterNameDetails = async (req, res) => {
 // Get a Transporter Name Details
 const getTransporterNameDetails = async (req, res) => {
   try {
-    const user = await TransporterNameModel.find();
+    const user = await TransporterNameModel.find().sort({ createdAt: -1 });
     if (!user) {
       return res.status(404).send();
     }

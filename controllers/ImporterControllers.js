@@ -47,7 +47,7 @@ const postImporterDetails = async (req, res) => {
 // Get a Importer Details
 const getImporterDetails = async (req, res) => {
   try {
-    const user = await ImporterModel.find();
+    const user = await ImporterModel.find().sort({ createdAt: -1 });
     if (!user) {
       return res.status(404).send();
     }

@@ -66,7 +66,7 @@ const postFinancerDetails = async (req, res) => {
 // Get a Financer Details
 const getFinancerDetails = async (req, res) => {
   try {
-    const user = await FinancerModel.find();
+    const user = await FinancerModel.find().sort({ createdAt: -1 });
     if (!user) {
       return res.status(404).send();
     }

@@ -42,7 +42,7 @@ const postItemNameDetails = async (req, res) => {
 // Get a ItemName Details
 const getItemNameDetails = async (req, res) => {
   try {
-    const user = await ItemNameModel.find();
+    const user = await ItemNameModel.find().sort({ createdAt: -1 });
     if (!user) {
       return res.status(404).send();
     }

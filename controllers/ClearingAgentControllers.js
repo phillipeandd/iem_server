@@ -55,7 +55,7 @@ const postClearingAgentDetails = async (req, res) => {
 // Get a Clearing Agent Details
 const getClearingAgentDetails = async (req, res) => {
   try {
-    const user = await ClearingAgentModel.find();
+    const user = await ClearingAgentModel.find().sort({ createdAt: -1 });
     if (!user) {
       return res.status(404).send();
     }

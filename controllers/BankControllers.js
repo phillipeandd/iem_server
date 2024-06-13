@@ -44,7 +44,7 @@ const postBankDetails = async (req, res) => {
 // Get a Bank Details
 const getBankDetails = async (req, res) => {
   try {
-    const user = await BankModel.find();
+    const user = await BankModel.find().sort({ createdAt: -1 });
     if (!user) {
       return res.status(404).send();
     }
