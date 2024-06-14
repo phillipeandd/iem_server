@@ -2,13 +2,12 @@ const mongoose = require("mongoose");
 const userSchema = new mongoose.Schema(
   {
     first_name: { type: String, required: true },
-    last_name: { type: String, required: true },
+    last_name: { type: String, required: false },
     email: { type: String, required: true, unique: true },
-    alternate_email: { type: String, required: true },
+    alternate_email: { type: String, required: false },
     phone: { type: String, required: true },
-    alternate_phone: { type: String, required: true },
+    alternate_phone: { type: String, required: false },
     password: { type: String, required: true },
-    confirm_password: { type: String, required: true },
     name: String,
     path: String,
   },

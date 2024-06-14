@@ -18,100 +18,74 @@ const newUserRegister = async (req, res) => {
 
   // Check if password and confirm_password match
   if (password !== confirm_password) {
-    res.send({ message: "Password and confirm password do not match." });
-    return;
+    return res.status(400).send({ message: "Password and confirm password do not match." });
   }
 
-  const existing_user = await UserModel.findOne({ email });
+  try {
+    const existing_user = await UserModel.findOne({ email });
 
-  if (existing_user) {
-    res.send({ message: "User already exist" });
-    return;
-  }
-  bcrypt.hash(password, 4, async function (err, hash) {
-    if (err) {
-      res.send({ message: "Registration Failed", err });
-    } else {
-      const new_user = new UserModel({
-        first_name,
-        last_name,
-        email,
-        alternate_email,
-        phone,
-        alternate_phone,
-        password: hash,
-        confirm_password: hash,
-        name: file.originalname,
-        path: file.path,
-      });
-
-      await new_user.save();
-      res.send({ message: "Signup succesfull..", new_user });
+    if (existing_user) {
+      return res.status(400).send({ message: "User already exists" });
     }
-  });
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const new_user = new UserModel({
+      first_name,
+      last_name,
+      email,
+      alternate_email,
+      phone,
+      alternate_phone,
+      password: hashedPassword,
+      name: file ? file.originalname : undefined,
+      path: file ? file.path : undefined,
+    });
+
+    await new_user.save();
+    res.status(201).send({ message: "Signup successful", new_user });
+  } catch (err) {
+    res.status(500).send({ message: "Registration failed", error: err.message });
+  }
 };
 
 const login = async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await UserModel.findOne({ email });
+  try {
+    const user = await UserModel.findOne({ email });
 
-  if (!user) {
-    return res.status(401).send({ message: "Invalid email ID" });
-  }
+    if (!user) {
+      return res.status(401).send({ message: "Invalid email ID" });
+    }
 
-  const passwordMatch = await bcrypt.compare(password, user.password);
+    const passwordMatch = await bcrypt.compare(password, user.password);
 
-  if (!passwordMatch) {
-    return res.status(401).send({ message: "Invalid password" });
-  }
+    if (!passwordMatch) {
+      return res.status(401).send({ message: "Invalid password" });
+    }
 
-  if (user) {
-    const hashed_password = user.password;
+    const token = jwt.sign({ user_id: user._id }, process.env.SECRET, { expiresIn: '1h' });
 
-    const user_id = user._id;
+    const document = {
+      name: user.name,
+      path: user.path,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      email: user.email,
+      alternate_email: user.alternate_email,
+      phone: user.phone,
+      alternate_phone: user.alternate_phone,
+      id: user._id,
+      token,
+    };
 
-    bcrypt.compare(password, hashed_password, function (err, result) {
-      if (err) {
-        res.send({ message: "Something went wrong, try again later" });
-      }
-      if (result) {
-        const token = jwt.sign({ user_id }, process.env.SECRET);
-        const name = user.name;
-        const path = user.path;
-        const first_name = user.first_name;
-        const last_name = user.last_name;
-        const email = user.email;
-        const alternate_email = user.alternate_email;
-        const phone = user.phone;
-        const alternate_phone = user.alternate_phone;
-        const id = user._id;
-        const document = {
-          name: name,
-          path: path,
-          first_name: first_name,
-          last_name: last_name,
-          
-          email: email,
-          alternate_email: alternate_email,
-          phone: phone,
-          alternate_phone: alternate_phone,
-          id: id,
-          token: token,
-        };
-        res.send({
-          message: "Login Successfull",
-          document: document,
-          token: token,
-        });
-      } else {
-        res.send({ message: "Invalid Credentials", token: null });
-      }
-    });
-  } else {
-    res.send({ message: "Invalid Credentials", token: null });
+    res.send({ message: "Login successful", document, token });
+  } catch (err) {
+    res.status(500).send({ message: "Something went wrong, try again later", error: err.message });
   }
 };
+
 
 
 
