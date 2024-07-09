@@ -18,6 +18,7 @@ const postSalesContractDetails = async (req, res) => {
         priceTerms,
         salesContractRemarks,
         floatingPriceRows,
+        fixedPriceRows,
         advancePaymentDetails
     } = req.body;
 
@@ -52,6 +53,7 @@ const postSalesContractDetails = async (req, res) => {
         priceTerms,
         salesContractRemarks,
         floatingPriceRows,
+        fixedPriceRows,
         advancePaymentDetails
     });
 

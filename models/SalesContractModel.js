@@ -2,10 +2,21 @@ const mongoose = require("mongoose");
 
 const floatingPriceRowSchema = new mongoose.Schema({
   date: { type: String, default: null },
+  floatingitemName: { type: String, default: null },
   quantity: { type: String, default: null },
+  itemUnit: { type: String, default: null },
   lmePrice: { type: String, default: null },
   rate: { type: String, default: null },
   finalPrice: { type: String, default: null },
+});
+
+
+
+const fixedPriceRowSchema = new mongoose.Schema({
+  fixeditemName: { type: String, default: null },
+  quantity: { type: String, default: null },
+  itemUnit: { type: String, default: null },
+  price: { type: String, default: null },
 });
 
 const advancePaymentDetailSchema = new mongoose.Schema({
@@ -35,6 +46,7 @@ const salesContractSchema = new mongoose.Schema(
     priceTerms: { type: String, default: null },
     salesContractRemarks: { type: String, default: null },
     floatingPriceRows: [floatingPriceRowSchema],
+    fixedPriceRows:[fixedPriceRowSchema],
     advancePaymentDetails: [advancePaymentDetailSchema],
   },
   { timestamps: true }
