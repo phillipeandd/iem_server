@@ -13,6 +13,17 @@ const ShipmentItemRowSchema = new mongoose.Schema({
   difference: { type: String, default: null },
 });
 
+
+
+const ShipmentItemRowCCSSchema = new mongoose.Schema({
+  dispatchFrom: { type: String, default: null },
+  dispatchTo: { type: String, default: null },
+  transporterName: { type: String, default: null },
+  transporterQty: { type: String, default: null },
+  transporterRate: { type: String, default: null },
+ 
+});
+
 const DocumentStatusSchema = new mongoose.Schema({
   draftStatusFromShipper: { type: Map, of: Boolean, default: {} },
   originalStatusFromShipper: { type: Map, of: String, default: {} },
@@ -146,6 +157,7 @@ const shippingDetailsSchema = new mongoose.Schema(
       dispatchTo2: { type: String, default: null },
       dispatchDate2: { type: Date, default: null },
     },
+    rowsCCS: [ShipmentItemRowCCSSchema],
     rowsWeightLevel1: [WeightLevel1Schema],
     rowsWeightLevel2: [WeightLevel2Schema],
     rowsWeightLevel3: [WeightLevel3Schema],

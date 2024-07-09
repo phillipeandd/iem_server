@@ -2,6 +2,10 @@ const UserModel = require("../models/UserModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const path = require("path");
+const crypto = require('crypto');
+const nodemailer = require('nodemailer');
+require('dotenv').config();
+
 // Post a User
 const newUserRegister = async (req, res) => {
   const { file } = req;
@@ -152,6 +156,80 @@ const deleteUser = async (req, res) => {
   }
 };
 
+const requestPasswordReset = async (req, res) => {
+  const { email } = req.body;
+  try {
+    const user = await UserModel.findOne({ email });
+    if (!user) {
+      return res.status(400).send({ message: "User with this email does not exist" });
+    }
+
+    const token = crypto.randomBytes(20).toString('hex');
+
+    user.resetPasswordToken = token;
+    user.resetPasswordExpires = Date.now() + 3600000; // 1 hour from now
+
+    await user.save();
+
+    const transporter = nodemailer.createTransport({
+      service: 'Gmail',
+      auth: {
+        user: process.env.EMAIL,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    });
+
+    const mailOptions = {
+      to: user.email,
+      from: process.env.EMAIL,
+      subject: 'Password Reset For Import Export Management(IEM)',
+      text: `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n
+      Please click on the following link, or paste this into your browser to complete the process:\n\n
+      http://${req.headers.host}/reset/${token}\n\n
+      If you did not request this, please ignore this email and your password will remain unchanged.\n`,
+    };
+
+    await transporter.sendMail(mailOptions);
+    res.status(200).send({ message: 'Password reset link sent to email' });
+
+  } catch (err) {
+    res.status(500).send({ message: 'Error requesting password reset', error: err.message });
+  }
+};
+
+const resetPassword = async (req, res) => {
+  const { token } = req.params;
+  const { newPassword, confirmPassword } = req.body;
+
+  if (newPassword !== confirmPassword) {
+    return res.status(400).send({ message: "Passwords do not match" });
+  }
+
+  try {
+    const user = await UserModel.findOne({
+      resetPasswordToken: token,
+      resetPasswordExpires: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      return res.status(400).send({ message: "Password reset token is invalid or has expired" });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    user.password = hashedPassword;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
+
+    await user.save();
+
+    res.status(200).send({ message: "Password has been reset successfully" });
+
+  } catch (err) {
+    res.status(500).send({ message: "Error resetting password", error: err.message });
+  }
+};
+
 module.exports = {
   newUserRegister,
   login,
@@ -159,4 +237,7 @@ module.exports = {
   getSingleUser,
   deleteUser,
   editUser,
+  requestPasswordReset,
+  resetPassword
+
 };

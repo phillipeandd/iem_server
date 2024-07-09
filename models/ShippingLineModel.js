@@ -3,7 +3,7 @@ const shippingLineSchema = new mongoose.Schema(
   {
     shippingName: { type: String, required: true },
     shippingGSTNumber: { type: String, required: true },
-    
+    shippingState: { type: String, required: true },
   },
   { timestamps: true }
 );

@@ -3,16 +3,16 @@ const ShippingLineModel = require("../models/ShippingLineModel");
 // Post a Shipping Line Details
 const postShippingLineDetails = async (req, res) => {
   try {
-    const { shippingName, shippingGSTNumber } = req.body;
+    const { shippingName, shippingGSTNumber, shippingState } = req.body;
 
     // Validate the request body
-    if (!shippingName  || !shippingGSTNumber ) {
+    if (!shippingName  || !shippingGSTNumber || !shippingState ) {
       return res.status(400).send({ message: "All fields are required" });
     }
 
     // Create a new Shipping Line instance
     const new_user = new ShippingLineModel({
-        shippingName, shippingGSTNumber
+        shippingName, shippingGSTNumber,shippingState
     });
 
     // Save the new Shipping Line to the database

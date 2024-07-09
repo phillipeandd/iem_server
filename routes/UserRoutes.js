@@ -20,6 +20,7 @@ router.get("/users", UserController.getUser);
 router.get("/singleUser/:id", UserController.getSingleUser);
 router.delete("/deleteUser/:id", UserController.deleteUser);
 router.patch("/editUser/:id", upload.single("file"), UserController.editUser);
-
+router.post('/requestPasswordReset', UserController.requestPasswordReset);
+router.post('/reset/:token', UserController.resetPassword);
 
 module.exports = router;

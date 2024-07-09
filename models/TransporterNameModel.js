@@ -3,6 +3,7 @@ const transporterNameSchema = new mongoose.Schema(
   {
     transporterName: { type: String, required: true },
     transporterNumber: { type: String, required: true },
+    transporterId: { type: String, required: true },
     
   },
   { timestamps: true }

@@ -3,16 +3,16 @@ const TransporterNameModel = require("../models/TransporterNameModel");
 // Post a Transporter Name Details
 const postTransporterNameDetails = async (req, res) => {
   try {
-    const { transporterName, transporterNumber } = req.body;
+    const { transporterName, transporterNumber,transporterId } = req.body;
 
     // Validate the request body
-    if (!transporterName  || !transporterNumber ) {
+    if (!transporterName  || !transporterNumber || !transporterId  ) {
       return res.status(400).send({ message: "All fields are required" });
     }
 
     // Create a new Transporter Name instance
     const new_user = new TransporterNameModel({
-        transporterName, transporterNumber
+        transporterName, transporterNumber,transporterId 
     });
 
     // Save the new Transporter Name to the database

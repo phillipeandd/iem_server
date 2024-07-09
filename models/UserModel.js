@@ -10,6 +10,8 @@ const userSchema = new mongoose.Schema(
     password: { type: String, required: true },
     name: String,
     path: String,
+    resetPasswordToken: String,
+    resetPasswordExpires: Date,
   },
   { timestamps: true }
 );
