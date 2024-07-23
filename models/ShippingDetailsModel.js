@@ -13,15 +13,12 @@ const ShipmentItemRowSchema = new mongoose.Schema({
   difference: { type: String, default: null },
 });
 
-
-
 const ShipmentItemRowCCSSchema = new mongoose.Schema({
   dispatchFrom: { type: String, default: null },
   dispatchTo: { type: String, default: null },
   transporterName: { type: String, default: null },
   transporterQty: { type: String, default: null },
   transporterRate: { type: String, default: null },
- 
 });
 
 const DocumentStatusSchema = new mongoose.Schema({
@@ -29,6 +26,23 @@ const DocumentStatusSchema = new mongoose.Schema({
   originalStatusFromShipper: { type: Map, of: String, default: {} },
   draftStatusToClearingAgent: { type: Map, of: Boolean, default: {} },
   originalStatusToClearingAgent: { type: Map, of: String, default: {} },
+});
+
+const shipperRowSchema = new mongoose.Schema({
+  selectedDocuments: { type: [String], default: null },
+  location: { type: String, default: null },
+  companyName: { type: String, default: null },
+  trackingDetails: { type: String, default: null },
+  receivingStatus: { type: Date, default: null },
+  refNo: { type: String, default: null },
+});
+
+const TCAHRowSchema = new mongoose.Schema({
+  selectedDocuments: { type: [String], default: null },
+  chaName: { type: String, default: null },
+  location: { type: String, default: null },
+  trackingDetails: { type: String, default: null },
+  deliveryStatus: { type: Date, default: null },
 });
 
 const paymentStatusRowSchema = new mongoose.Schema({
@@ -100,7 +114,7 @@ const totalsWeightLevel3Schema = new mongoose.Schema({
 
 const shippingDetailsSchema = new mongoose.Schema(
   {
-    salesContractNumber: { type: String, ref: 'SalesContract' },
+    salesContractNumber: { type: String, ref: "SalesContract" },
     shipmentWiseData: {
       exporterName: { type: String, default: null },
       hssName: { type: String, default: null },
@@ -118,7 +132,9 @@ const shippingDetailsSchema = new mongoose.Schema(
       exporterInvoiceDate: { type: String, default: null },
     },
     rows: [ShipmentItemRowSchema],
-    documentsStatusData: DocumentStatusSchema,
+    documentsStatusData: [DocumentStatusSchema],
+    rowsShipper: [shipperRowSchema],
+    rowsDeliver: [TCAHRowSchema],
     paymentStatusRows: [paymentStatusRowSchema],
     paymentStatusData: {
       shipperInvoiceRemarks: { type: String, default: null },

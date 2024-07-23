@@ -15,6 +15,7 @@ const ShippingDetailsRoutes = require("./routes/ShippingDetailsRoutes");
 const ShippingLineRoutes = require("./routes/ShippingLineRoutes");
 const TransporterNameRoutes = require("./routes/TransporterNameRoutes");
 const FinanceGenerationRoutes = require("./routes/FinanceGenerationRoutes");
+const RepaymentRoutes = require("./routes/RepaymentRoutes");
 
 const app = express();
 app.use(cors());
@@ -50,6 +51,7 @@ app.use("/", ShippingDetailsRoutes);
 app.use("/", ShippingLineRoutes);
 app.use("/", TransporterNameRoutes);
 app.use("/", FinanceGenerationRoutes);
+app.use("/", RepaymentRoutes);
 
 
 // Listening & Connection

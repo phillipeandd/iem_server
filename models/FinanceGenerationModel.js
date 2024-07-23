@@ -6,6 +6,7 @@ const financeGenerationSchema = new mongoose.Schema(
     salesContractNumber: { type: String, required: true },
     exporterName: { type: String, required: true },
     exporterInvoiceValue: { type: String, required: true },
+    exporterInvoiceValues :{ type: [String], required: true },
     invoiceDate: { type: String, required: true },
     financeCurrency: { type: String, required: true },
     creditTakenDate: { type: String, required: true },
