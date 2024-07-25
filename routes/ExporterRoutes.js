@@ -7,7 +7,7 @@ router.post("/postExporterDetails", ExporterController.postExporterDetails);
 router.get("/getExporterDetails", ExporterController.getExporterDetails);
 router.get("/getSingleExporterDetails/:id", ExporterController.getSingleExporterDetails);
 router.delete("/deleteExporterDetails/:id", ExporterController.deleteExporterDetails);
-router.patch("/editExporterDetails/:id", ExporterController.editExporterDetails);
+router.patch("/editExporterDetails/exporter/:id", ExporterController.editExporterDetails);
 
 
 module.exports = router;

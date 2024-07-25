@@ -7,7 +7,7 @@ router.post("/postShippingLineDetails", ShippingLineController.postShippingLineD
 router.get("/getShippingLineDetails", ShippingLineController.getShippingLineDetails);
 router.get("/getSingleShippingLineDetails/:id", ShippingLineController.getSingleShippingLineDetails);
 router.delete("/deleteShippingLineDetails/:id", ShippingLineController.deleteShippingLineDetails);
-router.patch("/editShippingLineDetails/:id", ShippingLineController.editShippingLineDetails);
+router.patch("/editDetails/shippingline/:id", ShippingLineController.editShippingLineDetails);
 
 
 module.exports = router;

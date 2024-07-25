@@ -7,7 +7,7 @@ router.post("/postImporterDetails", ImporterController.postImporterDetails);
 router.get("/getImporterDetails", ImporterController.getImporterDetails);
 router.get("/getSingleImporterDetails/:id", ImporterController.getSingleImporterDetails);
 router.delete("/deleteImporterDetails/:id", ImporterController.deleteImporterDetails);
-router.patch("/editImporterDetails/:id", ImporterController.editImporterDetails);
+router.patch("/editDetails/importer/:id", ImporterController.editImporterDetails);
 
 
 module.exports = router;

@@ -7,7 +7,7 @@ router.post("/postTransporterNameDetails", TransporterNameController.postTranspo
 router.get("/getTransporterNameDetails", TransporterNameController.getTransporterNameDetails);
 router.get("/getSingleTransporterNameDetails/:id", TransporterNameController.getSingleTransporterNameDetails);
 router.delete("/deleteTransporterNameeDetails/:id", TransporterNameController.deleteTransporterNameDetails);
-router.patch("/editTransporterNameDetails/:id", TransporterNameController.editTransporterNameDetails);
+router.patch("/editDetails/transporter/:id", TransporterNameController.editTransporterNameDetails);
 
 
 module.exports = router;
